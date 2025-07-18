@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ranchi Smart City Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .top-bar {
+      background-color: #b4dce8;
+      padding: 5px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .top-left span {
+      margin-right: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      user-select: none;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .top-right select,
+    .top-right input {
+      padding: 4px;
+      border-radius: 2px;
+      border: 1px solid #ccc;
+    }
+
+    .top-right .search-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .top-right .search-container input {
+      margin-left: 5px;
+    }
+
+    .top-right img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    .register-btn {
+      background-color: #006d80;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .nav-bar {
+      background-color: white;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .nav-left img {
+      height: 50px;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 20px;
+      margin-left: 30px;
+    }
+
+    .nav-menu a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      position: relative;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-toggle {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .dropdown-toggle::after {
+      content: "▼";
+      font-size: 10px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: white;
+      border: 1px solid #ccc;
+      z-index: 10;
+      min-width: 150px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: #333;
+      white-space: nowrap;
+    }
+
+    .dropdown-menu a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .dropdown.open .dropdown-menu {
+      display: block;
+    }
+
+    .nav-right img {
+      height: 50px;
+      border-radius: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-menu {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .top-bar,
+      .nav-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .nav-right {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="top-left">
+      <span id="zoom-out">A-</span>
+      <span id="zoom-reset">A</span>
+      <span id="zoom-in">A+</span>
+    </div>
+    <div class="top-right">
+      <select>
+        <option>English</option>
+        <option>Hindi</option>
+      </select>
+      <div class="search-container">
+        <img src="https://cdn-icons-png.flaticon.com/512/49/49116.png" alt="search" width="16">
+        <input type="text" placeholder="Search entire website">
+      </div>
+      <img src="https://cdn-icons-png.flaticon.com/512/888/888857.png" alt="android">
+      <a href="project.html" class="register-btn">Register | Login</a>
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="instagram">
+            
+</div>
+  <div id="zoom-content">
+    <div class="nav-bar">
+      <div class="nav-left">
+        <img src="data:image/jpeg;base64,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" alt="Ranchi Smart City">
+        <div class="nav-menu">
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle" id="cameraDropdown">Camera Count</a>
+            <div class="dropdown-menu" id="cameraMenu">
+              <a href="#">ANPR</a>
+              <a href="#">RLVD</a>
+              <a href="#">SVD</a>
+            <a href="#">Survelliance</a>
+                <div class="submenu">
+        <div class="nav-menu">
+
+          <div class="dropdown">
+              <a href="#" class="dropdown-toggle">Surveillance ▸</a>
+            <div class="dropdown-menu" id="Survelliance">
+              <a href="#">PTZ</a>
+              <a href="#">360°</a>
+              <a href="#">Fix</a>
+            </div>
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+            </div>
+          </div>
+       
+      <div class="nav-right">
+          
+        <img src="data:image/jpeg;base64,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" alt="CM Photo">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Zoom controls
+    let zoomLevel = 1;
+    document.getElementById('zoom-in').onclick = () => {
+      zoomLevel += 0.1;
+      applyZoom();
+    };
+    document.getElementById('zoom-out').onclick = () => {
+      zoomLevel -= 0.1;
+      if (zoomLevel < 0.5) zoomLevel = 0.5;
+      applyZoom();
+    };
+    document.getElementById('zoom-reset').onclick = () => {
+      zoomLevel = 1;
+      applyZoom();
+    };
+    function applyZoom() {
+      const content = document.getElementById('zoom-content');
+      content.style.transform = `scale(${zoomLevel})`;
+      content.style.transformOrigin = 'top center';
+      content.style.transition = 'transform 0.3s ease';
+    }
+
+    // Dropdown toggle
+    const dropdownToggle = document.getElementById("cameraDropdown");
+    const dropdownMenu = document.getElementById("cameraMenu");
+    const dropdownContainer = dropdownToggle.parentElement;
+
+    dropdownToggle.addEventListener("click", function (e) {
+      e.preventDefault();
+      dropdownContainer.classList.toggle("open");
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!dropdownContainer.contains(e.target)) {
+        dropdownContainer.classList.remove("open");
+
+          
+
+          
+    
+      }
+    });
+  </script>
+</body>
+</html>
